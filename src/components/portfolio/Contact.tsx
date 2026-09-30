@@ -12,13 +12,18 @@ export function Contact() {
     const formData = new FormData(form);
 
     try {
-      const res = await fetch("https://formsubmit.co/ajax/vamshigaddi18@gmail.com", {
+      const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: { Accept: "application/json" },
-        body: formData,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(Object.fromEntries(formData)),
       });
 
-      if (res.ok) {
+      const data = await res.json();
+
+      if (data.success) {
         setStatus("sent");
         form.reset();
       } else {
@@ -54,11 +59,11 @@ export function Contact() {
           onSubmit={handleSubmit}
           className="card-elevated mt-10 rounded-2xl p-6 sm:p-8 reveal"
         >
-          {/* Hidden fields for FormSubmit.co */}
-          <input type="hidden" name="_subject" value="New message from portfolio" />
-          <input type="hidden" name="_captcha" value="false" />
-          <input type="hidden" name="_template" value="table" />
-          <input type="text" name="_honey" style={{ display: "none" }} />
+          {/* Hidden fields for Web3Forms */}
+          <input type="hidden" name="access_key" value="e4e1421a-29b6-427c-8be2-b2e4ca35373c" />
+          <input type="hidden" name="subject" value="New message from portfolio contact form" />
+          <input type="hidden" name="from_name" value="Portfolio Contact Form" />
+          <input type="checkbox" name="botcheck" className="hidden" style={{ display: "none" }} />
 
           <div className="grid sm:grid-cols-2 gap-4">
             <Field label="Name" name="name" placeholder="Your name" />
